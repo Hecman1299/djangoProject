@@ -19,3 +19,10 @@ class ServerSerializer(serializers.ModelSerializer):
         if hasattr(obj, 'num_members'):
             return obj.num_members
         return None
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        num_members = self.context.get('num_members')
+        if not num_members:
+            data.pop('num_members', None)
+        return data
